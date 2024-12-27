@@ -20,4 +20,7 @@ export class CreateAuthDto {
     
     @IsOptional()
     books : string[]
+    
+    @IsOptional()
+    image : File | string
 }

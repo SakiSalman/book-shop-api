@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { JwtModule } from '@nestjs/jwt';
       global:true,
       secret : process.env.JWT_SECRET,
       signOptions: { expiresIn: '24h' },
-    })
+    }),
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

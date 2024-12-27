@@ -20,6 +20,10 @@ export class Auth extends Document {
 
   @Prop({ type: [String], default: [] })
   books: string[];
+
+  @Prop({ type: String, default: null })
+  image : File | string
+
 }
 
 export const AuthSchema = SchemaFactory.createForClass(Auth);

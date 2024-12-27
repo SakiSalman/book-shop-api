@@ -1,22 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthGuard } from './auth.guard';
 import { Request } from 'express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @UseInterceptors(FileFieldsInterceptor([{name : 'image', maxCount : 1}]))
+  create(@Body() createAuthDto: CreateAuthDto, @UploadedFiles() files:{
+    image?:Express.Multer.File
+  }) {
+    return this.authService.create(createAuthDto, files);
   }
   @Post('/create-admin')
   @UseGuards(AuthGuard)
-  createAdmin(@Body() createAuthDto: CreateAuthDto, @Req() request:Request) {
-    return this.authService.createAdmin(createAuthDto,request);
+  @UseInterceptors(FileFieldsInterceptor([{name : 'image', maxCount : 1}]))
+  createAdmin(@Body() createAuthDto: CreateAuthDto, @Req() request:Request, @UploadedFiles() files:{
+    image?:Express.Multer.File
+  }) {
+    return this.authService.createAdmin(createAuthDto,request,files);
   }
   @Post('/login')
   login(@Body() createAuthDto: CreateAuthDto) {

@@ -13,7 +13,7 @@ export class AuthController {
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
   }
-  @Get('/admin')
+  @Post('/create-admin')
   @UseGuards(AuthGuard)
   createAdmin(@Body() createAuthDto: CreateAuthDto, @Req() request:Request) {
     return this.authService.createAdmin(createAuthDto,request);

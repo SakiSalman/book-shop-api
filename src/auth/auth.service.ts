@@ -42,6 +42,8 @@ export class AuthService {
     const newUser = new this.authModel(createAuthDto);
     return await newUser.save();
   }
+
+  // Create admin
   async createAdmin(createAuthDto: CreateAuthDto, request:Request) {
     const { name, email, password, role } = createAuthDto;
 
@@ -57,7 +59,25 @@ export class AuthService {
       );
     }
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    console.log("token", token)
+     
+    if (!token) {
+      throw new BadRequestException(
+        `Only admin can create admin!`,
+      );
+    }
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: process.env.JWT_SECRET
+    })
+    const checkAdmin = await this.authModel.findOne({
+      email : payload.email,
+      role: { $in: ['admin', 'master-admin'] },
+    });
+
+    if (!checkAdmin) {
+      throw new BadRequestException(
+        `Only admin can create admin!`,
+      );
+    }
     const existingUser = await this.authModel.findOne({ email });
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
@@ -65,7 +85,13 @@ export class AuthService {
     createAuthDto.password = await encriptPassword(password);
 
     const newUser = new this.authModel(createAuthDto);
-    return await newUser.save();
+    const user = await newUser.save();
+    let data ={
+      statusCode : 201,
+      data:user,
+      message : "Admin Created Successfully!"
+    }
+    return data
   }
 
   async findAll() {

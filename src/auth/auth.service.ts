@@ -5,8 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Auth } from './schema/auth.schema';
 import { Model } from 'mongoose';
 import { decriptPassword, encriptPassword } from 'src/helper/bycript';
-import { Request } from 'express';
+import { Request, response } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { ResponseUtils } from 'src/utils/responseUtils';
 
 @Injectable()
 export class AuthService {
@@ -87,11 +88,9 @@ export class AuthService {
     const newUser = new this.authModel(createAuthDto);
     const user = await newUser.save();
     let data ={
-      statusCode : 201,
-      data:user,
-      message : "Admin Created Successfully!"
+     ...user
     }
-    return data
+    return ResponseUtils.successResponse(200, "Admin Created Successfully!", 'data', data)
   }
 
   async findAll() {
@@ -110,11 +109,9 @@ export class AuthService {
         throw new BadRequestException('User Not Found!');
       }
       let data = {
-        statusCode: 200,
         data: user,
-        message: 'User Found!',
       };
-      return data;
+      return ResponseUtils.successResponse(200, "User Found!", 'data', {...data})
     } catch (error) {
       throw new BadRequestException('Server Error!');
     }
@@ -125,16 +122,13 @@ export class AuthService {
         _id : id,
         role : 'admin'
       }).select('-password');
-      console.log('user', user)
       if (!user) {
         throw new BadRequestException('User Not Found!');
       }
       let data = {
-        statusCode: 200,
         data: user,
-        message: 'User Found!',
       };
-      return data;
+      return ResponseUtils.successResponse(200, "User Found!", 'data', {...data})
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
@@ -171,12 +165,10 @@ async login (dto:CreateAuthDto) {
   const userWithoutPassword = isExist.toObject();
   const { password: ignorePassword, email: ignoreEmail, ...loginInfo } = userWithoutPassword;
   let data ={
-    statusCode : 200,
-    data:loginInfo,
+    ...loginInfo,
     token : token,
-    message : "Login Successfull!"
   }
-  return data
+  return ResponseUtils.successResponse(200, "Login Successfull!", 'data', data)
  } catch (error) {
   if (error instanceof BadRequestException) {
     throw error;

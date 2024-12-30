@@ -23,4 +23,16 @@ export class CreateAuthDto {
     
     @IsOptional()
     image : File | string
+    
+    @IsOptional()
+    verifyCode : number
+}
+export class ForgotPasswordDto {
+    @IsNotEmpty({ message: 'Email is required' })
+    @IsEmail({}, { message: 'Email must be a valid email address' })
+    readonly email: string;
+}
+export class ResetPasswordDto {
+    @IsNotEmpty({ message: 'password is required' })
+    readonly password: string;
 }

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, ForgotPasswordDto, ResetPasswordDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Auth } from './schema/auth.schema';
@@ -9,6 +9,8 @@ import { Request, response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { ResponseUtils } from 'src/utils/responseUtils';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { EmailSenderService } from 'src/email-sender/email-sender.service';
+import { generateVerificationCode } from 'src/helper/math';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
     private readonly authModel: Model<Auth>,
     private jwtService: JwtService,
     private cloudinaryService: CloudinaryService,
+    private emailSenderService: EmailSenderService,
   ) {}
 
   async create(
@@ -129,6 +132,16 @@ export class AuthService {
     createAuthDto.password = await encriptPassword(password);
 
     const newAdminUser = await this.authModel.create(createAuthDto);
+    if (newAdminUser) {
+      await this.emailSenderService.sendAdminMail({
+        from: 'smithsamantha19484@gmail.com',
+        subject: 'Admin Registration',
+        title: 'Your account is created',
+        buttonLink: process.env.APP_URL + '/login',
+        description: `Your username : ${newAdminUser?.email} , passwrod :${password} `,
+        to: createAuthDto.email,
+      });
+    }
     return await newAdminUser.save();
   }
 
@@ -223,6 +236,100 @@ export class AuthService {
       return ResponseUtils.successResponse(
         200,
         'Login Successfull!',
+        'data',
+        data,
+      );
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      } else {
+        throw new BadRequestException('Server Error!');
+      }
+    }
+  }
+  async forgotPassword(dto: ForgotPasswordDto) {
+    try {
+      let { email } = dto;
+      const missingFields = [];
+      if (!email) missingFields.push('email');
+      if (missingFields.length) {
+        throw new BadRequestException(
+          `Missing required fields: ${missingFields.join(', ')}`,
+        );
+      }
+      const isExist = await this.authModel.findOne({ email });
+
+      if (!isExist) {
+        throw new BadRequestException('No Registered User Found!');
+      }
+
+      let payload = { email: isExist.email, _id: isExist._id };
+      const token = await this.jwtService.signAsync(payload);
+      if (!token) {
+        throw new BadRequestException('Server Error!');
+      }
+      const data = {
+        token : token,
+        statusCode : 201,
+        message : 'Password Reset code sent.'
+      }
+      return ResponseUtils.successResponse(
+        201,
+        'Password Reset code sent.',
+        'data',
+        data,
+      );
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      } else {
+        throw new BadRequestException('Server Error!');
+      }
+    }
+  }
+  async resetPassword(dto: ResetPasswordDto, query:{token : string}) {
+    try {
+      let { password } = dto;
+      const token = query.token
+      const missingFields = [];
+      if (!password) missingFields.push('password');
+      if (missingFields.length) {
+        throw new BadRequestException(
+          `Missing required fields: ${missingFields.join(', ')}`,
+        );
+      }
+      if (!token) {
+        throw new BadRequestException(
+          `Invalid access token.`,
+        );
+      }
+      const {email} = await this.jwtService.verifyAsync(token, {
+        secret: process.env.JWT_SECRET,
+      });
+      if (!email) {
+        throw new BadRequestException(
+          `Invalid access token.`,
+        );
+      }
+      const isExist = await this.authModel.findOne({ email });
+
+      if (!isExist) {
+        throw new BadRequestException('No Registered User Found!');
+      }
+
+      const encriptedPass = await encriptPassword(password);
+
+      const updatedPass = await this.authModel.findByIdAndUpdate(isExist._id, {
+        password : encriptedPass
+      })
+      const data = {
+        token : token,
+        statusCode : 201,
+        message : 'Password Reset Successfully. Please Login.'
+      }
+      return ResponseUtils.successResponse(
+        201,
+        'Password Reset Successfully. Please Login.',
         'data',
         data,
       );

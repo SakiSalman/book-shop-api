@@ -23,6 +23,8 @@ export class Auth extends Document {
 
   @Prop({ type: String, default: null })
   image : File | string
+  @Prop({ type: Number, default: null })
+  verifyCode : number
 
 }
 

@@ -4,11 +4,13 @@ import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Auth, AuthSchema } from './schema/auth.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { EmailSenderModule } from 'src/email-sender/email-sender.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
-    CloudinaryModule
+    CloudinaryModule,
+    EmailSenderModule
   ],
   controllers: [AuthController],
   providers: [AuthService],

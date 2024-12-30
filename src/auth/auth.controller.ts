@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFiles, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, ForgotPasswordDto, ResetPasswordDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthGuard } from './auth.guard';
 import { Request } from 'express';
@@ -28,6 +28,16 @@ export class AuthController {
   @Post('/login')
   login(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.login(createAuthDto);
+  }
+  @Post('/send-verification')
+  forgotPassword(@Body() ForgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(ForgotPasswordDto);
+  }
+  @Post('/reset-password')
+  resetPassword(@Body() resetPassword: ResetPasswordDto, @Query() query: {
+    token : string
+  }) {
+    return this.authService.resetPassword(resetPassword, query);
   }
 
   @Get()

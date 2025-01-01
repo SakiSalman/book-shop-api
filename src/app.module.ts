@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { EmailSenderModule } from './email-sender/email-sender.module';
+import { EmailSenderModule } from './modules/email-sender/email-sender.module';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { AppSettingsModule } from './modules/cms/app-settings/app-settings.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env automatically
@@ -39,6 +40,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     
     CloudinaryModule,
     EmailSenderModule,
+    AppSettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,8 +8,8 @@ import { decriptPassword, encriptPassword } from 'src/helper/bycript';
 import { Request, response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { ResponseUtils } from 'src/utils/responseUtils';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { EmailSenderService } from 'src/email-sender/email-sender.service';
+import { CloudinaryService } from 'src/modules/cloudinary/cloudinary.service';
+import { EmailSenderService } from 'src/modules/email-sender/email-sender.service';
 import { generateVerificationCode } from 'src/helper/math';
 
 @Injectable()

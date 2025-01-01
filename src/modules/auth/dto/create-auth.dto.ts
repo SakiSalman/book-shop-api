@@ -26,6 +26,8 @@ export class CreateAuthDto {
     
     @IsOptional()
     verifyCode : number
+    @IsOptional()
+    coins : number
 }
 export class ForgotPasswordDto {
     @IsNotEmpty({ message: 'Email is required' })

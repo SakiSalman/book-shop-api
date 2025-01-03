@@ -8,11 +8,20 @@ export class CreateAppSettingDto {
     logo : File | string | null
 
     @IsNotEmpty()
-    primaryColor : string
+    primaryColor : string;
 
     @IsNotEmpty()
-    secondaryColor : string
+    textColor : string;
 
     @IsNotEmpty()
-    grayBg :string
+    desktopLogoWidth : number
+
+    @IsNotEmpty()
+    mobileLogoWidth : number
+
+    @IsNotEmpty()
+    secondaryColor : string;
+
+    @IsNotEmpty()
+    grayBg :string;
 }

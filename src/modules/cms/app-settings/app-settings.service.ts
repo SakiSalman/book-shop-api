@@ -44,6 +44,7 @@ export class AppSettingsService {
         let data = await this.AppSettingsModel.findOneAndUpdate(
           { _id: prevData[0]._id },
           createAppSettingDto,
+          { new: true } 
         );
 
         if (!data) {

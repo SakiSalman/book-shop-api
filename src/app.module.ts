@@ -11,6 +11,7 @@ import { EmailSenderModule } from './modules/email-sender/email-sender.module';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { AppSettingsModule } from './modules/cms/app-settings/app-settings.module';
+import { SiteFrontendModule } from './modules/site-frontend/site-frontend.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env automatically
@@ -41,6 +42,7 @@ import { AppSettingsModule } from './modules/cms/app-settings/app-settings.modul
     CloudinaryModule,
     EmailSenderModule,
     AppSettingsModule,
+    SiteFrontendModule,
   ],
   controllers: [AppController],
   providers: [AppService],

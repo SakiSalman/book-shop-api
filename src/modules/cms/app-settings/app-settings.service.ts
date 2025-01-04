@@ -57,8 +57,7 @@ export class AppSettingsService {
           'data',
           data,
         );
-      }
-      console.log(files?.logo[0]);
+      };
       if (files && files?.logo && files?.logo[0]?.buffer) {
         const imageUploadResult = await this.cloudinaryService.uploadFile(
           files?.logo[0],
@@ -67,13 +66,16 @@ export class AppSettingsService {
           createAppSettingDto.logo = imageUploadResult.secure_url;
         } else {
           throw new BadRequestException('Failed to upload image');
-        }
-      }
-      console.log(createAppSettingDto);
-      let createData = await this.AppSettingsModel.create(createAppSettingDto);
-
-      console.log(createData);
-      return createData.save();
+        };
+      };
+      const createData = await this.AppSettingsModel.create(createAppSettingDto);
+      createData.save();
+      return ResponseUtils.successResponse(
+        201,
+        'Data Fetched Successfully.',
+        'data',
+        createData,
+      );
     } catch (error) {
       console.log('error ==', error);
       throw new BadRequestException('Server Error!');

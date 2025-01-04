@@ -9,7 +9,6 @@ export class SiteFrontendService {
   constructor(
     @InjectModel(AppSettings.name)
     private readonly appSettingsModel: Model<AppSettings>,
-    // Inject other models if needed
   ) {}
 
   async getHeaderFooterCMS() {

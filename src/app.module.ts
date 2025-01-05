@@ -12,6 +12,7 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { AppSettingsModule } from './modules/cms/app-settings/app-settings.module';
 import { SiteFrontendModule } from './modules/site-frontend/site-frontend.module';
+import { HeaderFooterModule } from './modules/cms/header-footer/header-footer.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env automatically
@@ -43,6 +44,7 @@ import { SiteFrontendModule } from './modules/site-frontend/site-frontend.module
     EmailSenderModule,
     AppSettingsModule,
     SiteFrontendModule,
+    HeaderFooterModule,
   ],
   controllers: [AppController],
   providers: [AppService],

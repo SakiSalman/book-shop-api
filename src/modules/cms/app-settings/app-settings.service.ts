@@ -50,7 +50,6 @@ export class AppSettingsService {
         if (!data) {
           throw new BadRequestException('Server Error!');
         }
-        console.log('data===', data);
         return ResponseUtils.successResponse(
           201,
           'Updated App Settings.',

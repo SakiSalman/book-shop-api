@@ -14,11 +14,13 @@ export class HeaderFooterService {
   ) {}
   async create(createHeaderFooterDto: CreateHeaderFooterDto) {
     const isExist = await this.HeaderFooterModal.find();
-    console.log(isExist)
+
+    console.log("createHeaderFooterDto", createHeaderFooterDto)
     if (isExist?.[0]?._id ) {
       const updated = await this.HeaderFooterModal.findOneAndUpdate(
         { _id: isExist[0]._id },
         createHeaderFooterDto,
+        { new: true }
       );
 
       if (!updated) {

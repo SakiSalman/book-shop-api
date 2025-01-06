@@ -10,6 +10,8 @@ export class HeaderFooterController {
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() createHeaderFooterDto: CreateHeaderFooterDto) {
+
+    console.log(createHeaderFooterDto)
     return this.headerFooterService.create(createHeaderFooterDto);
   }
 

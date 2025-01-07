@@ -14,5 +14,8 @@ export class CreateHeaderFooterDto {
     footerBgColor : string;
 
     @IsOptional()
+    footerCopyrightColor : string;
+
+    @IsOptional()
     copyrightText : string;
 }

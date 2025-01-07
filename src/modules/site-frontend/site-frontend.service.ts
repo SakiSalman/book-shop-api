@@ -17,8 +17,8 @@ export class SiteFrontendService {
   async getHeaderFooterCMS() {
     try {
       const [headerFooterData, HeaderFooterCMS] = await Promise.all([
-        this.appSettingsModel.find().select('logo primaryColor secondaryColor textColor grayBg desktopLogoWidth mobileLogoWidth').exec(),
-        this.headerFooterCMSModel.find().select('searchPlaceholder searchButtonText headerBgColor footerBgColor copyrightText').exec(),
+        this.appSettingsModel.find().select('logo primaryColor secondaryColor textColor grayBg desktopLogoWidth mobileLogoWidth desktopFooterLogoWidth mobileFooterLogoWidth').exec(),
+        this.headerFooterCMSModel.find().select('searchPlaceholder searchButtonText headerBgColor footerBgColor footerCopyrightColor copyrightText').exec(),
       ]);
       const data = {
         headerFooterData,

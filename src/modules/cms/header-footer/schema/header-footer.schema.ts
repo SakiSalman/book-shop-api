@@ -11,10 +11,13 @@ export class HeaderFooterCMS extends Document {
   searchButtonText: string;
 
   @Prop({ type: String, nullable : true , default:null })
-  headerBgColor: number;
+  headerBgColor: string;
 
   @Prop({ type: String, nullable : true , default:null })
-  footerBgColor: number;
+  footerBgColor: string;
+
+  @Prop({ type: String, nullable : true , default:null })
+  footerCopyrightColor: string;
 
   @Prop({ type: String, nullable : true , default:null })
   copyrightText: string;

@@ -19,6 +19,12 @@ export class AppSettings extends Document {
   @Prop({ type: Number })
   mobileLogoWidth: number;
 
+  @Prop({ type: Number })
+  desktopFooterLogoWidth: number;
+
+  @Prop({ type: Number })
+  mobileFooterLogoWidth: number;
+
   @Prop({ type: String })
   secondaryColor: string;
 

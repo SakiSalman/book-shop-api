@@ -20,6 +20,12 @@ export class CreateAppSettingDto {
     mobileLogoWidth : number
 
     @IsNotEmpty()
+    desktopFooterLogoWidth : number
+
+    @IsNotEmpty()
+    mobileFooterLogoWidth : number
+
+    @IsNotEmpty()
     secondaryColor : string;
 
     @IsNotEmpty()

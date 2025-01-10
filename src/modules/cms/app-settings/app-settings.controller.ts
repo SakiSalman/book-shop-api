@@ -34,22 +34,4 @@ export class AppSettingsController {
   findAll() {
     return this.appSettingsService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.appSettingsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAppSettingDto: UpdateAppSettingDto,
-  ) {
-    return this.appSettingsService.update(+id, updateAppSettingDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.appSettingsService.remove(+id);
-  }
 }

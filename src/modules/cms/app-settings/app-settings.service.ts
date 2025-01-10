@@ -6,6 +6,7 @@ import { AppSettings } from './schema/appSettings.schema';
 import { Model } from 'mongoose';
 import { ResponseUtils } from 'src/utils/responseUtils';
 import { CloudinaryService } from 'src/modules/cloudinary/cloudinary.service';
+import { sanitizeObject } from 'src/helper/senitizeObjects';
 
 @Injectable()
 export class AppSettingsService {
@@ -20,13 +21,7 @@ export class AppSettingsService {
       logo?: Express.Multer.File;
     },
   ) {
-    // Sanitize DTO to replace "null" strings with actual null
-    Object.keys(createAppSettingDto).forEach((key) => {
-      if (createAppSettingDto[key] === 'null') {
-        createAppSettingDto[key] = null;
-      }
-    });
-
+    createAppSettingDto = sanitizeObject(createAppSettingDto) as CreateAppSettingDto
     try {
       let prevData: any = await this.AppSettingsModel.find();
 
@@ -68,7 +63,7 @@ export class AppSettingsService {
         };
       };
       const createData = await this.AppSettingsModel.create(createAppSettingDto);
-      createData.save();
+      await createData.save();
       return ResponseUtils.successResponse(
         201,
         'Data Fetched Successfully.',
@@ -98,17 +93,5 @@ export class AppSettingsService {
       console.log('err===', error);
       throw new BadRequestException('Server Error!');
     }
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} appSetting`;
-  }
-
-  update(id: number, updateAppSettingDto: UpdateAppSettingDto) {
-    return `This action updates a #${id} appSetting`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} appSetting`;
   }
 }

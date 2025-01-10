@@ -13,6 +13,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { AppSettingsModule } from './modules/cms/app-settings/app-settings.module';
 import { SiteFrontendModule } from './modules/site-frontend/site-frontend.module';
 import { HeaderFooterModule } from './modules/cms/header-footer/header-footer.module';
+import { ProductsModule } from './modules/shop/products/products.module';
+import { AuthorsModule } from './modules/shop/authors/authors.module';
+import { CategoriesModule } from './modules/shop/categories/categories.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env automatically
@@ -45,6 +48,9 @@ import { HeaderFooterModule } from './modules/cms/header-footer/header-footer.mo
     AppSettingsModule,
     SiteFrontendModule,
     HeaderFooterModule,
+    ProductsModule,
+    AuthorsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

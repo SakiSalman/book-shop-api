@@ -15,5 +15,5 @@ export class CreateCategoryDto {
 
   @IsOptional()
   @IsMongoId()
-  readonly parentCategory?: string;
+  readonly parentCategory?: string[];
 }

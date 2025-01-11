@@ -70,6 +70,46 @@ export class CategoriesService {
     }
   }
 
+  async findAllParentCategories() {
+    try {
+      const allCategories = await this.BookCategories.find({
+        $or: [
+          { parentCategory: { $exists: false } }, // Field does not exist
+          { parentCategory: null },              // Field is null
+          { parentCategory: "" }                 // Field is an empty string
+        ]
+      });
+      let formatedData  = []
+
+
+      if (allCategories?.length > 0) {
+        allCategories.map((item:BookCategories) => {
+          formatedData.push({
+            label : item.name,
+            value : item._id
+            
+          })
+        })
+      }
+
+      return ResponseUtils.successResponse(
+        200,
+        'Data Fetched Successfully.',
+        'data',
+        formatedData,
+      );
+    } catch (error) {
+      console.error('Error in findAllParentCategories method:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'An unexpected error occurred while fetching the categories',
+      );
+    }
+  }
+  
+
   async findAll() {
     try {
       const allCategories = await this.BookCategories.find();

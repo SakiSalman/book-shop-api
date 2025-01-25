@@ -16,6 +16,7 @@ import { HeaderFooterModule } from './modules/cms/header-footer/header-footer.mo
 import { ProductsModule } from './modules/shop/products/products.module';
 import { AuthorsModule } from './modules/shop/authors/authors.module';
 import { CategoriesModule } from './modules/shop/categories/categories.module';
+import { TagModule } from './modules/shop/tag/tag.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env automatically
@@ -51,6 +52,7 @@ import { CategoriesModule } from './modules/shop/categories/categories.module';
     ProductsModule,
     AuthorsModule,
     CategoriesModule,
+    TagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

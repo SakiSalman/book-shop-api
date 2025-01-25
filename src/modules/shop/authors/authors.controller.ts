@@ -19,16 +19,16 @@ export class AuthorsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.authorsService.findOne(+id);
+    return this.authorsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-    return this.authorsService.update(+id, updateAuthorDto);
+    return this.authorsService.update(id, updateAuthorDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.authorsService.remove(+id);
+    return this.authorsService.remove(id);
   }
 }

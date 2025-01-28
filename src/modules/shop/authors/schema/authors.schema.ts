@@ -8,6 +8,12 @@ export class BookShopAuthor extends Document {
   @Prop({ type: String, required: true })
   name: string;
 
+  @Prop({ type: String, required: true, unique:true, })
+  email: string;
+
+  @Prop({ type: String, required: false })
+  slug: string;
+
   @Prop({ type: String, required: true })
   bio: string;
 
@@ -22,9 +28,6 @@ export class BookShopAuthor extends Document {
 
   @Prop({ type: String, required: false })
   website: string;
-
-  @Prop({ type: String, required: false })
-  email: string;
 
   @Prop({ type: [String], default: [] })
   socialLinks: string[];

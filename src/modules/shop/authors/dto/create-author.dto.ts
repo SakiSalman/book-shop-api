@@ -4,6 +4,9 @@ export class CreateAuthorDto {
   @IsString()
   name: string;
 
+  @IsString()
+  email: string;
+
   @IsOptional()
   @IsString()
   bio?: string;

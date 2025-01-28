@@ -86,18 +86,18 @@ export class AuthorsService {
         throw error;
       }
       throw new InternalServerErrorException(
-        'An unexpected error occurred while getting the tag',
+        'An unexpected error occurred while getting the author',
       );
     }
   }
 
   async update(id: string, updateAuthorDto: UpdateAuthorDto) {
     try {
-      const tag = await this.BookAuthorModel.findById(id);
-      if (!tag) {
-        throw new BadRequestException('No tag found!');
+      const author = await this.BookAuthorModel.findById(id);
+      if (!author) {
+        throw new BadRequestException('No author found!');
       }
-      const updatedTag = await this.BookAuthorModel.findByIdAndUpdate(
+      const updatedAuthor = await this.BookAuthorModel.findByIdAndUpdate(
         id,
         updateAuthorDto,
         {
@@ -108,7 +108,7 @@ export class AuthorsService {
         200,
         'Data Updated Successfully.',
         'data',
-        updatedTag,
+        updatedAuthor,
       );
     } catch (error) {
       console.error('Error in create method:', error);
@@ -116,7 +116,7 @@ export class AuthorsService {
         throw error;
       }
       throw new InternalServerErrorException(
-        'An unexpected error occurred while updating the tag',
+        'An unexpected error occurred while updating the author',
       );
     }
   }
@@ -124,16 +124,16 @@ export class AuthorsService {
 
   async remove(id: string) {
     try {
-      const tag = await this.BookAuthorModel.findById(id);
-      if (!tag) {
-        throw new BadRequestException('No tag found!');
+      const author = await this.BookAuthorModel.findById(id);
+      if (!author) {
+        throw new BadRequestException('No author found!');
       }
-      const removedTag = await this.BookAuthorModel.findByIdAndDelete(id);
+      const removedauthor = await this.BookAuthorModel.findByIdAndDelete(id);
       return ResponseUtils.successResponse(
         200,
         'Data Deleted Successfully.',
         'data',
-        removedTag,
+        removedauthor,
       );
     } catch (error) {
       console.error('Error in create method:', error);
